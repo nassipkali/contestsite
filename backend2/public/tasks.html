@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>Carousel Template · Bootstrap v5.0</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/carousel/">
+
+    
+
+    <!-- Bootstrap core CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.3/lib/codemirror.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.3/mode/javascript/javascript.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.3/mode/python/python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.3/mode/clike/clike.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.3/lib/codemirror.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.3/theme/darcula.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.3/theme/dracula.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.3/theme/material.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.3/theme/material-darker.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.3/theme/nord.min.css">
+  <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="carousel.css" rel="stylesheet">
+  </head>
+  <body>
+    
+<header>
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Портал олимпиады</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="javascript:window.location.reload(true)">Главное</a>
+          </li>
+        </ul>
+        <div id="right-corner">
+          <button type="button" class="btn btn-secondary shadow-none" id="logbtn" data-bs-toggle="modal" data-bs-target="#loginModal">Войти</button>
+          <button type="button" class="btn btn-primary shadow-none" id="regbtn" data-bs-toggle="modal" data-bs-target="#registerModal">Регистрация</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="container" id="container">
+    <div id="olymps-list">
+      <div class="d-flex justify-content-around align-items-center mt-3">
+        <h1>Олимпиады</h1>
+        </div>
+        <div class="d-flex justify-content-center">
+          <div id="olymps" class="flex-column col-8"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<template id="olymp-template">
+  <div class="card mt-1 mb-1">
+    <div class="card-body">
+      <button class="btn" style="background-color:transparent">Добавить задачу</button>
+    </div>
+  </div>
+</template>
+
+<template id="task-template">
+  <div class="card mt-1 mb-1">
+    <div class="card-body">
+      <button class="btn" style="background-color:transparent">Добавить задачу</button>
+    </div>
+  </div>
+</template>
+
+<template id="tasks-template">
+  <div id="tasks-list">
+    <div class="d-flex justify-content-around align-items-center mt-3">
+      <h1 id="olymp-name">Олимпиада </h1>
+    </div>
+    <div class="d-flex justify-content-around align-items-center mt-3">
+      <h3 id="olymp-status">
+        Статус: Неизвестно
+      </h3>
+    </div>
+    <div class="d-flex justify-content-around align-items-center mt-3">
+      <h2>Задачи</h2>
+    </div>
+    <div class="d-flex justify-content-center">
+      <div id="tasks" class="flex-column col-8"></div>
+    </div>
+  </div>
+</template>
+
+<template id="task-enter-template">
+  <div id="task-enter">
+    <div class="d-flex justify-content-around align-items-center mt-3 mb-3">
+      <h1 id="task-name">Задача </h1>
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="langButton" data-bs-toggle="dropdown" aria-expanded="false">
+          Python
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="langButton">
+          <li><button class="dropdown-item" type="button" onclick="changeLang('py')">Python</button></li>
+          <li><button class="dropdown-item" type="button" onclick="changeLang('cpp')">C++</button></li>
+          <li><button class="dropdown-item" type="button" onclick="changeLang('cs')">C#</button></li>
+        </ul>
+      </div>
+    </div>
+    <div id="task-code">
+      <textarea id="editor"></textarea>
+    </div>
+    <div class="d-flex justify-content-around align-items-center mt-3">
+      <button type="button" class="btn btn-primary" onclick="backToTasks()">Назад</button>
+      <button type="button" class="btn btn-success" onclick="sendCode()">Отправить</button>
+    </div>
+    <p class="mt-2 mb-2 alert" id="taskEnterMessage" role="alert"></p>
+  </div>
+</template>
+
+<!-- Login Modal-->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Войти</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="return false">
+          <div class="form-floating">
+            <input type="email" class="form-control" id="loginInput" placeholder="name@example.com">
+            <label for="loginInput">E-mail</label>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control" id="loginPassword" placeholder="Password">
+            <label for="loginPassword">Пароль</label>
+          </div>
+          <p class="mt-2 mb-2 text-danger" id="loginMessage"></p>     
+          <button class="w-100 btn btn-lg btn-primary" id="log-button" type="submit">Войти</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Register Modal-->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Регистрация</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="return false">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="registerName" placeholder="name">
+            <label for="registerName">Имя и фамилия</label>
+          </div>
+          <div class="form-floating">
+            <input type="email" class="form-control" id="registerInput" placeholder="name@example.com">
+            <label for="registerInput">E-mail</label>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control" id="registerPassword" placeholder="Password">
+            <label for="registerPassword">Пароль</label>
+          </div>
+          <!-- Maybe use as error line -->
+          <p class="mt-2 mb-2 text-muted" id="registerMessage"></p>     
+          <button class="w-100 btn btn-lg btn-primary" id="reg-button" type="submit">Регистрация</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="tasks.js"></script>
+      
+  </body>
+</html>
